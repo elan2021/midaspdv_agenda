@@ -1,0 +1,148 @@
+<html><head>
+<meta charset="utf-8"/>
+<link crossorigin="" href="https://fonts.gstatic.com/" rel="preconnect"/>
+<link as="style" href="https://fonts.googleapis.com/css2?display=swap&amp;family=Inter%3Awght%40400%3B500%3B700%3B900&amp;family=Noto+Sans%3Awght%40400%3B500%3B700%3B900" onload="this.rel='stylesheet'" rel="stylesheet"/>
+<title>Midas PDV - Login &amp; Registro</title>
+<link href="data:image/x-icon;base64," rel="icon" type="image/x-icon"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style>
+    .form-switch-button.active {
+      border-color: #3d98f4;
+      color: #3d98f4;
+      box-shadow: 0 2px 0 0 #3d98f4;
+    }
+    .form-switch-button {
+      border-bottom-width: 3px;
+    }
+    .flash {
+      background: #cee5F5;
+      padding: 1em;
+      border: 1px solid #3d98f4;
+      margin-bottom: 1em;
+      text-align: center;
+    }
+  </style>
+</head>
+<body class="bg-slate-50" style='font-family: Inter, "Noto Sans", sans-serif;'>
+<div class="relative flex size-full min-h-screen flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col items-center justify-center">
+
+{% for message in get_flashed_messages() %}
+  <div class="flash">{{ message }}</div>
+{% endfor %}
+
+<header class="flex items-center justify-center gap-3 py-8 text-[#111418]">
+<svg class="h-10 w-10 text-[#3d98f4]" fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_6_319_improved)">
+<path d="M8.57829 8.57829C5.52816 11.6284 3.451 15.5145 2.60947 19.7452C1.76794 23.9758 2.19984 28.361 3.85056 32.3462C5.50128 36.3314 8.29667 39.7376 11.8832 42.134C15.4698 44.5305 19.6865 45.8096 24 45.8096C28.3135 45.8096 32.5302 44.5305 36.1168 42.134C39.7033 39.7375 42.4987 36.3314 44.1494 32.3462C45.8002 28.361 46.2321 23.9758 45.3905 19.7452C44.549 15.5145 42.4718 11.6284 39.4217 8.57829L24 24L8.57829 8.57829Z" fill="currentColor"></path>
+</g>
+<defs>
+<clipPath id="clip0_6_319_improved"><rect fill="white" height="48" width="48"></rect></clipPath>
+</defs>
+</svg>
+<h1 class="text-[#111418] text-3xl font-bold tracking-tight">Midas PDV</h1>
+</header>
+<main class="flex w-full max-w-lg flex-col rounded-xl bg-white p-8 shadow-xl">
+<h2 class="text-center text-2xl font-bold text-slate-800 mb-2" id="form-title">Bem-vindo de volta</h2>
+<p class="text-center text-slate-600 mb-8">Faça login para continuar ou registre-se se for novo.</p>
+<div class="mb-8 flex border-b border-slate-200">
+<button class="form-switch-button active flex-1 py-3 text-center font-semibold text-slate-700 hover:text-[#3d98f4] focus:outline-none" id="login-tab" onclick="showLogin()">
+            Login
+          </button>
+<button class="form-switch-button flex-1 py-3 text-center font-semibold text-slate-500 hover:text-[#3d98f4] focus:outline-none" id="register-tab" onclick="showRegister()">
+            Registro
+          </button>
+</div>
+<form class="space-y-6" id="login-form" method="post" action="{{ url_for('auth_loja.login') }}">
+<div>
+<label class="block text-sm font-medium text-slate-700" for="login-username">Nome de usuário</label>
+<input class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-[#3d98f4] focus:ring focus:ring-[#3d98f4] focus:ring-opacity-50 p-3 placeholder-slate-400" id="login-username" name="login-username" placeholder="Digite seu nome de usuário" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700" for="login-password">Senha</label>
+<input class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-[#3d98f4] focus:ring focus:ring-[#3d98f4] focus:ring-opacity-50 p-3 placeholder-slate-400" id="login-password" name="login-password" placeholder="Digite sua senha" type="password"/>
+</div>
+<div class="flex items-center justify-between">
+<a class="text-sm text-[#3d98f4] hover:underline" href="#">Esqueceu sua senha?</a>
+</div>
+<button class="w-full rounded-md bg-[#3d98f4] py-3 px-4 text-sm font-semibold text-white shadow-sm hover:bg-[#3180d3] focus:outline-none focus:ring-2 focus:ring-[#3d98f4] focus:ring-offset-2" type="submit">
+            Login
+          </button>
+<p class="text-center text-sm text-slate-500">Ou continue com</p>
+<div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+<button class="flex w-full items-center justify-center rounded-md border border-slate-300 bg-white py-2.5 px-4 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50" type="button">
+<svg aria-hidden="true" class="mr-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M10 0C4.477 0 0 4.477 0 10c0 4.418 2.865 8.148 6.839 9.49.5.092.682-.217.682-.483 0-.237-.009-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0110 4.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.026 2.747-1.026.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.338 4.695-4.566 4.942.359.308.678.92.678 1.852 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.001 10.001 0 0020 10c0-5.523-4.477-10-10-10z" fill-rule="evenodd"></path></svg>
+              Continuar com o Google
+            </button>
+<button class="flex w-full items-center justify-center rounded-md border border-slate-300 bg-white py-2.5 px-4 text-sm font-medium text-slate-700 shadow-sm hover:bg-slate-50" type="button">
+<svg aria-hidden="true" class="mr-2 h-5 w-5 text-[#1877F2]" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M20 10c0-5.523-4.477-10-10-10S0 4.477 0 10c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V10h2.54V7.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V10h2.773l-.443 2.89h-2.33v6.988C16.343 19.128 20 14.991 20 10z" fill-rule="evenodd"></path></svg>
+              Continuar com o Facebook
+            </button>
+</div>
+</form>
+<form class="space-y-6 hidden" id="register-form" method="post" action="{{ url_for('auth_loja.register') }}">
+<div>
+<label class="block text-sm font-medium text-slate-700" for="register-company-name">Nome da empresa</label>
+<input class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-[#3d98f4] focus:ring focus:ring-[#3d98f4] focus:ring-opacity-50 p-3 placeholder-slate-400" id="register-company-name" name="register-company-name" placeholder="Digite o nome da sua empresa" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700" for="register-owner-name">Nome do proprietário</label>
+<input class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-[#3d98f4] focus:ring focus:ring-[#3d98f4] focus:ring-opacity-50 p-3 placeholder-slate-400" id="register-owner-name" name="register-owner-name" placeholder="Digite o nome do proprietário" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700" for="register-username">Nome de usuário</label>
+<input class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-[#3d98f4] focus:ring focus:ring-[#3d98f4] focus:ring-opacity-50 p-3 placeholder-slate-400" id="register-username" name="register-username" placeholder="Crie um nome de usuário" type="text"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700" for="register-password">Senha</label>
+<input class="mt-1 block w-full rounded-md border-slate-300 shadow-sm focus:border-[#3d98f4] focus:ring focus:ring-[#3d98f4] focus:ring-opacity-50 p-3 placeholder-slate-400" id="register-password" name="register-password" placeholder="Crie uma senha segura" type="password"/>
+</div>
+<div>
+<label class="block text-sm font-medium text-slate-700" for="register-domain">Domínio</label>
+<div class="mt-1 flex rounded-md shadow-sm">
+<span class="inline-flex items-center rounded-l-md border border-r-0 border-slate-300 bg-slate-50 px-3 text-slate-500 sm:text-sm">localhost/</span>
+<input class="block w-full min-w-0 flex-1 rounded-none rounded-r-md border-slate-300 focus:border-[#3d98f4] focus:ring focus:ring-[#3d98f4] focus:ring-opacity-50 p-3 placeholder-slate-400" id="register-domain" name="register-domain" placeholder="nomedaloja" type="text"/>
+</div>
+<p class="mt-2 text-xs text-slate-500">Exemplo: se o nome da sua loja for 'lojadojoao', digite 'lojadojoao'.</p>
+</div>
+<button class="w-full rounded-md bg-[#3d98f4] py-3 px-4 text-sm font-semibold text-white shadow-sm hover:bg-[#3180d3] focus:outline-none focus:ring-2 focus:ring-[#3d98f4] focus:ring-offset-2" type="submit">
+            Registrar
+          </button>
+</form>
+</main>
+<footer class="py-8 text-center text-sm text-slate-500">
+        © 2024 Midas PDV. Todos os direitos reservados.
+      </footer>
+</div>
+</div>
+<script>
+    const loginForm = document.getElementById('login-form');
+    const registerForm = document.getElementById('register-form');
+    const loginTab = document.getElementById('login-tab');
+    const registerTab = document.getElementById('register-tab');
+    const formTitle = document.getElementById('form-title');
+    function showLogin() {
+      loginForm.classList.remove('hidden');
+      registerForm.classList.add('hidden');
+      loginTab.classList.add('active', 'text-[#3d98f4]');
+      loginTab.classList.remove('text-slate-500');
+      registerTab.classList.remove('active', 'text-[#3d98f4]');
+      registerTab.classList.add('text-slate-500');
+      formTitle.textContent = 'Bem-vindo de volta';
+      document.querySelector('p.text-center.text-slate-600.mb-8').textContent = 'Faça login para continuar ou registre-se se for novo.';
+    }
+    function showRegister() {
+      loginForm.classList.add('hidden');
+      registerForm.classList.remove('hidden');
+      registerTab.classList.add('active', 'text-[#3d98f4]');
+      registerTab.classList.remove('text-slate-500');
+      loginTab.classList.remove('active', 'text-[#3d98f4]');
+      loginTab.classList.add('text-slate-500');
+      formTitle.textContent = 'Crie sua conta';
+      document.querySelector('p.text-center.text-slate-600.mb-8').textContent = 'Preencha os campos abaixo para criar sua conta Midas PDV.';
+    }
+    // Initialize with login form
+    showLogin();
+  </script>
+
+</body></html>

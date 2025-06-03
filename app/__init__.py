@@ -1,13 +1,12 @@
 import os
-
-from flask import Flask
+from flask import Flask, render_template, g # Added render_template and g
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='dev',
-        DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
+        SECRET_KEY='dev', # Change for production
+        DATABASE=os.path.join(app.instance_path, 'lojas.sqlite'),
     )
 
     if test_config is None:
@@ -23,21 +22,26 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
-    @app.route('/hello')
-    def hello():
-        return 'Hello, World!'
-
-    # register the database commands
+    # Register database functions
     from . import db
     db.init_app(app)
 
-    # apply the blueprints to the app
-    from . import auth
-    app.register_blueprint(auth.bp)
+    # Register auth_loja blueprint
+    from . import auth_loja
+    app.register_blueprint(auth_loja.bp)
 
-    from . import blog
-    app.register_blueprint(blog.bp)
-    app.add_url_rule('/', endpoint='index')
+    # Define a simple main route
+    @app.route('/')
+    def main_index():
+        # If user is logged in, perhaps redirect to a dashboard
+        # For now, always show login/register page
+        return render_template('login_register.html')
+
+    # Example of a route that requires login (can be in a different blueprint later)
+    # This requires g to be imported from flask
+    @app.route('/dashboard')
+    @auth_loja.login_required
+    def dashboard():
+        return f"Welcome to your dashboard, {g.loja['nome_de_usuario']}!"
 
     return app
